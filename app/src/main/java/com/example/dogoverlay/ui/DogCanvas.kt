@@ -37,14 +37,14 @@ fun DogCanvas(state: DogState, modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition(label = "dog_transition")
 
     // Continuous 0..1 walk-cycle phase, ~1.8 strides/sec.
-    val walkPhase by transition.animateFloat(
+    val walkPhase = transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(550, easing = LinearEasing)),
         label = "walkPhase"
-    )
+    ).value
     // Slow back-and-forth for idle breathing / tail sway while sitting.
-    val idlePhase by transition.animateFloat(
+    val idlePhase = transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -52,9 +52,9 @@ fun DogCanvas(state: DogState, modifier: Modifier = Modifier) {
             repeatMode = RepeatMode.Reverse
         ),
         label = "idlePhase"
-    )
+    ).value
     // Fast pulse driving the bark's head jerk / mouth flap.
-    val barkPhase by transition.animateFloat(
+    val barkPhase = transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -62,7 +62,7 @@ fun DogCanvas(state: DogState, modifier: Modifier = Modifier) {
             repeatMode = RepeatMode.Reverse
         ),
         label = "barkPhase"
-    )
+    ).value
 
     Canvas(modifier = modifier) {
         val w = size.width
